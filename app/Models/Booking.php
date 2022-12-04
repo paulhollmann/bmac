@@ -76,6 +76,9 @@ class Booking extends Model
         'final_information_email_sent_at',
     ];
 
+
+    protected $hidden = ['full_name'];
+
     /**
      *  Setup model event hooks
      */
@@ -158,6 +161,17 @@ class Booking extends Model
     }
 
     public function airportCtot($orderBy, $withAbbr = true): string
+    {
+        if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
+            if ($withAbbr) {
+                return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->formattedCtot}";
+            }
+            return "{$flight->airportDep->icao} - {$flight->airportArr->icao} {$flight->formattedCtot}";
+        }
+        return '-';
+    }
+
+    public function airportEobt($orderBy, $withAbbr = true): string
     {
         if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {

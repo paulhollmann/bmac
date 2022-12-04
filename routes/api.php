@@ -30,7 +30,7 @@ use App\Models\Event;
 // });
 
 Route::get('/users', function () {
-    return new UsersCollection(User::all());
+    //return new UsersCollection(User::all()); // WTF DON'T LEAK ALL USER DATA
 });
 
 Route::get('/events/upcoming/{limit?}', function ($limit = 3) {
