@@ -63,12 +63,17 @@ class BookingAdminController extends AdminController
                 }
                 $time->second = 0;
 
+
                 if (!Flight::whereHas('booking', function ($query) use ($request) {
                     $query->where('event_id', $request->id);
                 })->where([
                     'ctot' => $time,
                     'dep' => $request->dep,
                 ])->first()) {
+                    $eobt_time = $time;
+                    if($request->eobt_ctot_separation) {
+                        $eobt_time = $eobt_time->subMinutes($request->eobt_ctot_separation);
+                    }
                     Booking::create([
                         'event_id' => $request->id,
                         'is_editable' => $request->is_editable,
@@ -76,6 +81,7 @@ class BookingAdminController extends AdminController
                         'dep' => $request->dep,
                         'arr' => $request->arr,
                         'ctot' => $time,
+                        'eobt' => $request->eobt_ctot_separation ? $eobt_time : null,
                         'notes' => $request->notes ?? null,
                     ]);
 

@@ -54,6 +54,8 @@
                                 </x-form-input>
 
                                 <x-form-input name="separation" type="number" :label="__('Separation (in minutes)')" />
+
+                                <x-form-input name="eobt_ctot_separation" type="number" :label="__('EOBT-CTOT Separation (in minutes)')" />
                             </x-form-group>
                         @else
                             <x-form-group inline>
