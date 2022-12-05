@@ -175,9 +175,20 @@ class Booking extends Model
     {
         if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {
-                return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->formattedCtot}";
+                return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->formattedEobt}";
             }
-            return "{$flight->airportDep->icao} - {$flight->airportArr->icao} {$flight->formattedCtot}";
+            return "{$flight->airportDep->icao} - {$flight->airportArr->icao} {$flight->formattedEobt}";
+        }
+        return '-';
+    }
+
+    public function airportEobtCtot($orderBy, $withAbbr = true): string
+    {
+        if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
+            if ($withAbbr) {
+                return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->formattedEobt}|{$flight->formattedCtot}";
+            }
+            return "{$flight->airportDep->icao} - {$flight->airportArr->icao} {$flight->formattedEobt}|{$flight->formattedCtot}";
         }
         return '-';
     }

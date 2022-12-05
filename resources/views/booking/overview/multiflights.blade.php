@@ -14,10 +14,10 @@
     {{-- Check if flight belongs to the logged in user --}}
     <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}">
         <td>
-            {!! $booking->airportCtot(1) !!}
+            {!! $booking->airportEobtCtot(1) !!}
         </td>
         <td>
-            {!! $booking->airportCtot(2) !!}
+            {!! $booking->airportEobtCtot(2) !!}
         </td>
         <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">
             {{ $booking->formatted_callsign }}</td>

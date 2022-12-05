@@ -26,6 +26,11 @@
 
                         @bind($flight)
                         <x-form-group inline>
+                            <x-form-input name="eobt" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('EOBT')">
+                                @slot('append')
+                                    z
+                                @endslot
+                            </x-form-input>
                             <x-form-input name="ctot" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
                                 @slot('append')
                                     z

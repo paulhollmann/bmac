@@ -3,7 +3,7 @@
         <th scope="row">From</th>
         <th scope="row">To</th>
         @if ($event->uses_times)
-            <th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>
+            <th scope="row"><abbr title="Estimated Off Block Time | Calculated Take Off Time">EOBT|CTOT</abbr></th>
             <th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>
         @endif
         <th scope="row">Callsign</th>
@@ -30,7 +30,7 @@
             </td>
             @if ($booking->event->uses_times)
                 <td>
-                    {{ $flight->formattedCtot }}
+                    {{ $flight->formattedEobt }} | {{ $flight->formattedCtot }}
                 </td>
                 <td>
                     {{ $flight->formattedEta }}

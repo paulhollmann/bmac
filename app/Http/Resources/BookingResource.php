@@ -35,6 +35,7 @@ class BookingResource extends JsonResource
             'dep' => $flight->airportDep->icao,
             'arr' => $flight->airportArr->icao,
             'ctot' =>  $flight->ctot ? $flight->ctot->format('Hi') . 'z' : null,
+            'eobt' =>  $flight->eobt ? $flight->eobt->format('Hi') . 'z' : null,
             'eta' => $flight->eta ? $flight->eta->format('Hi') . 'z' : null,
             'route' => $flight->route,
             'oceanicFL' => $flight->oceanicFL,
