@@ -106,6 +106,13 @@ class BookingAdminController extends AdminController
                 );
             }
 
+            if ($request->eobt) {
+                $flightAttributes['eobt'] = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $event->startEvent->toDateString() . ' ' . $request->eobt
+                );
+            }
+
             if ($request->eta) {
                 $flightAttributes['eta'] = Carbon::createFromFormat(
                     'Y-m-d H:i',
@@ -167,6 +174,13 @@ class BookingAdminController extends AdminController
             $flightAttributes['ctot'] = Carbon::createFromFormat(
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->ctot
+            );
+        }
+
+        if ($request->eobt) {
+            $flightAttributes['eobt'] = Carbon::createFromFormat(
+                'Y-m-d H:i',
+                $booking->event->startEvent->toDateString() . ' ' . $request->eobt
             );
         }
 
