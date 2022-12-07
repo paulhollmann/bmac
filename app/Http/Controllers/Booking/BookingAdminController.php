@@ -233,9 +233,10 @@ class BookingAdminController extends AdminController
             if (!empty($booking->user)) {
                 event(new BookingDeleted($booking->event, $booking->user));
             }
+            $event =  $booking->event;
             $booking->delete();
             flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('bookings.event.index', $event);
         }
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
