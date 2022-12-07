@@ -75,7 +75,7 @@
                                 {{-- Check if user already has a booking, and only 1 is allowed--}}
 
                                 @if (auth()->user()->bookings->where('event_id', $event->id)->whereNotNull('eobt')->whereNotNull('eta')->where(function ($query){$query->whereBetween('eobt',
-                                [$booking->eobt, $booking->eta])->orWhereBetween('eta', [$booking->eobt, $booking->eta]); })->exists())
+                                [$booking->eobt, $booking->eta])->orWhereBetween('eta', [$booking->eobt, $booking->eta]); })->count() > 0)
                                 <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK NOW</a>
                                 @else
                                     <button class="btn btn-danger">Not available (overlap)</button>
