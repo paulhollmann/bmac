@@ -97,7 +97,7 @@
                             class="fa fa-edit"></i> Edit</a>
                 </td>
                 <td>
-                    <form action="{{ route('admin.bookings.destroy', $booking) }}" method="post">
+                    <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger delete-booking"><i class="fas fa-trash"></i> Delete
