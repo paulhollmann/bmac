@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\Bookings;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\OAuthController;
@@ -93,6 +95,11 @@ class User extends Authenticatable
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function flights(): HasManyThrough
+    {
+        return $this->hasManyThrough(Flight::class, Booking::class, 'user_id', 'booking_id');
     }
 
     public function getFullNameAttribute(): string
