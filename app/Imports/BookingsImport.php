@@ -48,18 +48,23 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             $ctot1 = $this->getTime($row['ctot_1'] ?? null);
             $ctot2 = $this->getTime($row['ctot_2'] ?? null);
 
+            $eobt1 = $this->getTime($row['eobt_1'] ?? null);
+            $eobt2 = $this->getTime($row['eobt_2'] ?? null);
+
             $booking->flights()->createMany([
                 [
                     'order_by' => 1,
                     'dep' => $airport1,
                     'arr' => $airport2,
                     'ctot' => $ctot1,
+                    'eobt' => $eobt2
                 ],
                 [
                     'order_by' => 2,
                     'dep' => $airport2,
                     'arr' => $airport3,
                     'ctot' => $ctot2,
+                    'eobt' => $eobt2,
                 ],
             ]);
         } else {
@@ -68,6 +73,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
                 'arr'          => $this->getAirport($row['destination']),
                 'notes'        => $row['notes'] ?? null,
                 'ctot'         => $this->getTime($row['ctot'] ?? null),
+                'eobt'         => $this->getTime($row['eobt'] ?? null),
                 'eta'          => $this->getTime($row['eta'] ?? null),
                 'oceanicTrack' => $row['track'] ?? null,
                 'oceanicFL'    => $row['fl'] ?? null,

@@ -63,12 +63,17 @@ class BookingAdminController extends AdminController
                 }
                 $time->second = 0;
 
+
                 if (!Flight::whereHas('booking', function ($query) use ($request) {
                     $query->where('event_id', $request->id);
                 })->where([
                     'ctot' => $time,
                     'dep' => $request->dep,
                 ])->first()) {
+                    $eobt_time = $time;
+                    if($request->eobt_ctot_separation) {
+                        $eobt_time = $eobt_time->subMinutes($request->eobt_ctot_separation);
+                    }
                     Booking::create([
                         'event_id' => $request->id,
                         'is_editable' => $request->is_editable,
@@ -76,6 +81,7 @@ class BookingAdminController extends AdminController
                         'dep' => $request->dep,
                         'arr' => $request->arr,
                         'ctot' => $time,
+                        'eobt' => $request->eobt_ctot_separation ? $eobt_time : null,
                         'notes' => $request->notes ?? null,
                     ]);
 
@@ -103,6 +109,13 @@ class BookingAdminController extends AdminController
                 $flightAttributes['ctot'] = Carbon::createFromFormat(
                     'Y-m-d H:i',
                     $event->startEvent->toDateString() . ' ' . $request->ctot
+                );
+            }
+
+            if ($request->eobt) {
+                $flightAttributes['eobt'] = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $event->startEvent->toDateString() . ' ' . $request->eobt
                 );
             }
 
@@ -170,6 +183,13 @@ class BookingAdminController extends AdminController
             );
         }
 
+        if ($request->eobt) {
+            $flightAttributes['eobt'] = Carbon::createFromFormat(
+                'Y-m-d H:i',
+                $booking->event->startEvent->toDateString() . ' ' . $request->eobt
+            );
+        }
+
         if ($request->eta) {
             $flightAttributes['eta'] = Carbon::createFromFormat(
                 'Y-m-d H:i',
@@ -210,12 +230,13 @@ class BookingAdminController extends AdminController
     public function destroy(Booking $booking): RedirectResponse
     {
         if ($booking->event->endEvent >= now()) {
-            if (!empty($booking->user)) {
+            if ($booking->user()->exists()) {
                 event(new BookingDeleted($booking->event, $booking->user));
             }
+            $event =  $booking->event;
             $booking->delete();
             flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('bookings.event.index', $event);
         }
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();

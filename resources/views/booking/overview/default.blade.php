@@ -3,7 +3,7 @@
         <th scope="row">From</th>
         <th scope="row">To</th>
         @if ($event->uses_times)
-            <th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>
+            <th scope="row"><abbr title="Estimated Off Block Time | Calculated Take Off Time">EOBT | CTOT</abbr></th>
             <th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>
         @endif
         <th scope="row">Callsign</th>
@@ -30,7 +30,7 @@
             </td>
             @if ($booking->event->uses_times)
                 <td>
-                    {{ $flight->formattedCtot }}
+                    {{ $flight->formattedEobt }} | {{ $flight->formattedCtot }}
                 </td>
                 <td>
                     {{ $flight->formattedEta }}
@@ -72,9 +72,20 @@
                             @if ($booking->event->multiple_bookings_allowed ||
     (!$booking->event->multiple_bookings_allowed &&
         !auth()->user()->bookings->where('event_id', $event->id)->first()))
-                                {{-- Check if user already has a booking, and only 1 is allowed --}}
-                                <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
-                                    NOW</a>
+                                {{-- Check if user already has a booking, and only 1 is allowed--}}
+                                @php
+                                    $f = $booking->flights()->first();
+                                @endphp
+                                @if (auth()->user()->flights()->where('bookings.event_id', $event->id)->whereNotNull('eobt')->whereNotNull('eta')
+                ->where(function ($query) use ($f) { return $query->whereBetween('eobt',[$f->eobt, $f->eta])->orWhereBetween('eta', [$f->eobt, $f->eta]); })//
+                ->count()==0)
+
+                                    <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK NOW</a>
+
+                                 @else
+                                     <button class="btn btn-danger">Not available (overlap)</button>
+                                 @endif
+
                             @else
                                 <i class="text-danger">You already have a booking</i>
                             @endif

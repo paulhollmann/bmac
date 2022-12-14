@@ -32,7 +32,11 @@
                                     <strong>{{ $flight->formatted_ctot }}</strong>
                                 </x-form-group>
                             @endif
-
+                            @if ($flight->eobt)
+                                <x-form-group :label="__('EOBT')">
+                                    <strong>{{ $flight->formatted_eobt }}</strong>
+                                </x-form-group>
+                            @endif
                             @if ($flight->eta)
                                 <x-form-group :label="__('ETA')">
                                     <strong>{{ $flight->formatted_eta }}</strong>

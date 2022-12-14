@@ -30,6 +30,7 @@ use App\Models\Event;
 //     return new UsersCollection(User::all());
 // });
 
+
 Route::get('/events/upcoming/{limit?}', function ($limit = 3) {
     return new EventsCollection(Event::where('is_online', true)
         ->where('endEvent', '>', now())

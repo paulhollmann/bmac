@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int|null $dep
  * @property int|null $arr
  * @property \Illuminate\Support\Carbon|null $ctot
+ * @property \Illuminate\Support\Carbon|null $eobt
  * @property \Illuminate\Support\Carbon|null $eta
  * @property string|null $route
  * @property string|null $notes
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read Airport $airportDep
  * @property-read Booking $booking
  * @property-read string $formatted_ctot
+ * @property-read string $formatted_eobt
  * @property-read string $formatted_eta
  * @property-read string $formatted_notes
  * @property-read string $formatted_oceanicfl
@@ -66,7 +68,7 @@ class Flight extends Model
      *
      * @var array
      */
-    protected $dates = ['ctot', 'eta'];
+    protected $dates = ['ctot', 'eobt', 'eta'];
 
     /**
      * The relationships that should be touched on save.
@@ -88,6 +90,14 @@ class Flight extends Model
         return '-';
     }
 
+    public function getFormattedEobtAttribute(): string
+    {
+        if (!empty($this->eobt)) {
+            return $this->eobt->format('Hi') . 'z';
+        }
+        return '-';
+    }
+
     public function getFormattedEtaAttribute(): string
     {
         if (!empty($this->eta)) {
@@ -101,7 +111,6 @@ class Flight extends Model
         if ($this->oceanicFL) {
             return 'FL' . $this->oceanicFL;
         }
-
         return '-';
     }
 
