@@ -39,6 +39,14 @@ Route::get('/events/upcoming/{limit?}', function ($limit = 3) {
         ->get());
 });
 
+Route::get('/events/current', function () {
+    return new EventsCollection(Event::where('is_online', true)
+        ->where('endEvent', '>', now())
+        ->where('startEvent', '<', now()->addHours(2))
+        ->orderBy('startEvent', 'asc')
+        ->get());
+});
+
 Route::get('/events/{event}/bookings', function (Event $event) {
     return new BookingsCollection($event->bookings->where('status', BookingStatus::BOOKED));
 });
@@ -49,6 +57,15 @@ Route::get('/events/{event}', function (Event $event) {
 
 Route::get('/events', function () {
     return new EventsCollection(Event::paginate());
+});
+
+Route::get('/bookings/current', function () {
+    return new BookingsCollection(
+        Booking::query()->where('status', BookingStatus::BOOKED)
+        ->with('event')
+        ->where('endEvent', '>', now()->addHours(2))
+        ->where('startEvent', '<', now()->addHours(2))
+    );
 });
 
 Route::get('/bookings/{booking}', function (Booking $booking) {
