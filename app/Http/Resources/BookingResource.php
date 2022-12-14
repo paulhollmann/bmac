@@ -27,7 +27,7 @@ class BookingResource extends JsonResource
             'event_id' => $this->event->id,
             'event_name' => $this->event->name,
             'user' => $this->user->id ?? null,
-            'full_name' => $this->user->full_name ?? null,
+            //'full_name' => $this->user->full_name ?? null,
             'status' => $this->status,
             'callsign' => $this->callsign,
             'acType' => $this->acType,
