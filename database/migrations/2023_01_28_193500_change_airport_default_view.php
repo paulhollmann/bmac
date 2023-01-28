@@ -15,7 +15,7 @@ class ChangeAirportDefaultView extends Migration
     public function up()
     {
         Schema::table('user', function (Blueprint $table) {
-            $table->tinyInteger('airport_view')->default(AirportView::ICAO)->change();
+            $table->integer('airport_view')->default(AirportView::ICAO)->change();
         });
     }
 
