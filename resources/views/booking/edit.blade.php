@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-forms.alert />
+    <x-forms.alert/>
     @include('layouts.alert')
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -21,20 +21,20 @@
                                 <strong>{{ $booking->formatted_actype }}</strong>
                             </x-form-group>
                         @else
-                            <x-form-input name="callsign" :label="__('Callsign')" required maxlength="7" />
-                            <x-form-input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" />
+                            <x-form-input name="callsign" :label="__('Callsign')" required maxlength="7"/>
+                            <x-form-input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4"/>
                         @endif
 
                         @bind($flight)
                         @if ($booking->event->uses_times)
-                            @if ($flight->ctot)
-                                <x-form-group :label="__('CTOT')">
-                                    <strong>{{ $flight->formatted_ctot }}</strong>
-                                </x-form-group>
-                            @endif
                             @if ($flight->eobt)
                                 <x-form-group :label="__('EOBT')">
                                     <strong>{{ $flight->formatted_eobt }}</strong>
+                                </x-form-group>
+                            @endif
+                            @if ($flight->ctot)
+                                <x-form-group :label="__('CTOT')">
+                                    <strong>{{ $flight->formatted_ctot }}</strong>
                                 </x-form-group>
                             @endif
                             @if ($flight->eta)
@@ -66,6 +66,18 @@
                             <strong>{{ $flight->route ?: '-' }}</strong>
                         </x-form-group>
 
+                        @if ($flight->url)
+                            <x-form-group label="Link">
+                                <strong><a href="{{ $flight->url }}">{{ $flight->url }}</strong>
+                            </x-form-group>
+                        @endif
+
+                        @if ($flight->notes)
+                            <x-form-group :label="__('Notes')">
+                                <strong>{{ $flight->formatted_notes }}</strong>
+                            </x-form-group>
+                        @endif
+
                         @if ($booking->event->is_oceanic_event)
                             <x-form-group :label="__('Track')">
                                 <strong>{{ $flight->oceanicTrack ?: 'T.B.D.' }}</strong>
@@ -85,12 +97,6 @@
                                     <strong>{{ $flight->formatted_oceanicfl }}</strong>
                                 </x-form-group>
                             @endif
-                        @endif
-
-                        @if ($flight->notes)
-                            <x-form-group :label="__('Notes')">
-                                <strong>{{ $flight->formatted_notes }}</strong>
-                            </x-form-group>
                         @endif
 
                         @foreach ($flight->airportDep->links as $link)
@@ -121,12 +127,12 @@
                             <x-form-group>
                                 <input type="hidden" name="checkStudy" value="0">
                                 <x-form-checkbox name="checkStudy" required
-                                    :label="__('I agree to study the provided briefing material')" value="1" />
+                                                 :label="__('I agree to study the provided briefing material')" value="1"/>
 
                                 <input type="hidden" name="checkCharts" value="0">
                                 <x-form-checkbox name="checkCharts" required
-                                    :label="__('I agree to have the applicable charts at hand during the event')"
-                                    value="1" />
+                                                 :label="__('I agree to have the applicable charts at hand during the event')"
+                                                 value="1"/>
                             </x-form-group>
 
                         @endif
@@ -138,7 +144,7 @@
 
                             @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
                                 <button class="btn btn-danger"
-                                    onclick="event.preventDefault(); document.getElementById('cancel-form').submit();">
+                                        onclick="event.preventDefault(); document.getElementById('cancel-form').submit();">
                                     <i class=" fa fa-times"></i> Cancel Reservation
                                 </button>
                             @endif
@@ -150,7 +156,7 @@
 
 
                         <x-form :action="route('bookings.cancel', $booking)" id="cancel-form" method="PATCH"
-                            style="display: none;"></x-form>
+                                style="display: none;"></x-form>
                 </div>
             </div>
         </div>

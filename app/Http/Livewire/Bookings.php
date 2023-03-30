@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Booking;
 use App\Models\Event;
+use App\Models\Flight;
 use Livewire\Component;
 use App\Enums\BookingStatus;
 
@@ -14,6 +16,8 @@ class Bookings extends Component
     public ?string $filter = null;
     public int $total = 0;
     public int $booked = 0;
+    public bool $display_eobt;
+    public bool $display_ctot ;
 
     public function filter($filter)
     {
@@ -64,6 +68,10 @@ class Bookings extends Component
         $this->booked = $this->bookings->where('status', BookingStatus::BOOKED)->count();
 
         $this->total = $this->bookings->count();
+
+
+        $this->display_ctot = $this->event->uses_times;
+        $this->display_eobt = $this->event->uses_times;
 
         return view('livewire.bookings');
     }

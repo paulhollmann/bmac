@@ -4,7 +4,7 @@
         <th scope="row">Flight #2</th>
         <th scope="row">Callsign</th>
         <th scope="row">Aircraft</th>
-        <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
+        <th scope="row">Book</th>
         @if (auth()->check() && auth()->user()->isAdmin && $event->endEvent >= now())
             <th colspan="3" scope="row">Admin actions</th>
         @endif

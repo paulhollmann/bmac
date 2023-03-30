@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $eta
  * @property string|null $route
  * @property string|null $notes
+ * @property string|null $url
  * @property string|null $oceanicFL
  * @property string|null $oceanicTrack
  * @property \Illuminate\Support\Carbon|null $created_at

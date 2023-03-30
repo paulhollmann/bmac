@@ -44,7 +44,7 @@
     </p>
     @include('layouts.alert')
     @if($event->startBooking <= now() || auth()->check() && auth()->user()->isAdmin)
-        Flights available: {{ $total - $booked }} / {{ $total }}
+        Flights available: {{ $total - $booked }} / {{ $total }} | Available until {{ $event->endBooking->format('d.m.Y H:i') }}z
         <table class="table table-hover table-responsive">
             @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
                 @include('booking.overview.multiflights')

@@ -3,12 +3,12 @@
         <th scope="row">From</th>
         <th scope="row">To</th>
         @if ($event->uses_times)
-            <th scope="row"><abbr title="Estimated Off Block Time (Calculated Take Off Time)">EOBT (CTOT)</abbr></th>
+            <th scope="row"><abbr title="Estimated Off Block Time">EOBT</abbr></th>
             <th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>
         @endif
         <th scope="row">Callsign</th>
         <th scope="row">Aircraft</th>
-        <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
+        <th scope="row">Book</th>
         @if (auth()->check() && auth()->user()->isAdmin && $event->endEvent >= now())
             <th colspan="3" scope="row">Admin actions</th>
         @endif
@@ -30,7 +30,7 @@
             </td>
             @if ($booking->event->uses_times)
                 <td>
-                    {{ $flight->formattedEobt }} ({{ $flight->formattedCtot }})
+                    {{ $flight->formattedEobt }}
                 </td>
                 <td>
                     {{ $flight->formattedEta }}
@@ -112,11 +112,9 @@
                 </td>
                 <td>
                     @if ($booking->user_id)
-                        <a href="mailto:{{ $booking->user->email }}" style="color: white;">
-                            <button class="btn btn-info">
-                                <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->user->email }}]
-                            </button>
-                        </a>
+                        <button type="button" class="btn btn-info">
+                            <i class="fas fa-envelope"></i> {{ $booking->user->full_name }} [{{$booking->user->id}}]
+                        </button>
                     @endif
                 </td>
             @endif

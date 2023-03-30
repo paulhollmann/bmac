@@ -39,6 +39,12 @@
                     </x-form-group>
 
                     @if ($booking->event->uses_times)
+                        @if ($flight->eobt)
+                            <x-form-group :label="__('EOBT')">
+                                <strong>{{ $flight->formatted_eobt }}</strong>
+                            </x-form-group>
+                        @endif
+
                         @if ($flight->ctot)
                             <x-form-group :label="__('CTOT')">
                                 <strong>{{ $flight->formatted_ctot }}</strong>
@@ -74,6 +80,18 @@
                         <strong>{{ $flight->route ?: '-' }}</strong>
                     </x-form-group>
 
+                    @if ($flight->url)
+                        <x-form-group label="Link">
+                            <strong><a href="{{ $flight->url }}">{{ $flight->url }}</strong>
+                        </x-form-group>
+                    @endif
+
+                    @if ($flight->notes)
+                        <x-form-group :label="__('Notes')">
+                            <strong>{{ $flight->formatted_notes }}</strong>
+                        </x-form-group>
+                    @endif
+
                     @if ($booking->event->is_oceanic_event)
                         <x-form-group :label="__('Track')">
                             <strong>{{ $flight->oceanicTrack ?: 'T.B.D.' }}</strong>
@@ -93,13 +111,6 @@
                             </x-form-group>
                         @endif
                     @endif
-
-                    @if ($flight->notes)
-                        <x-form-group :label="__('Notes')">
-                            <strong>{{ $flight->formatted_notes }}</strong>
-                        </x-form-group>
-                    @endif
-
                     @foreach ($flight->airportDep->links as $link)
                         <x-form-group :label="$link->name ?: $link->type->name . ' ' . $link->airport->icao">
                             <strong>
