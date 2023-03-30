@@ -72,6 +72,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
                 'dep'          => $this->getAirport($row['origin']),
                 'arr'          => $this->getAirport($row['destination']),
                 'notes'        => $row['notes'] ?? null,
+                'url'          => $row['url'] ?? null,
                 'ctot'         => $this->getTime($row['ctot'] ?? null),
                 'eobt'         => $this->getTime($row['eobt'] ?? null),
                 'eta'          => $this->getTime($row['eta'] ?? null),

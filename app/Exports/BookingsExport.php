@@ -66,6 +66,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
             $flight->airportDep->icao,
             $flight->airportArr->icao,
             $flight->getRawOriginal('oceanicFL'),
+            $flight->eobt ? Date::dateTimeToExcel($flight->eobt) : null,
             $flight->ctot ? Date::dateTimeToExcel($flight->ctot) : null,
             $flight->eta ? Date::dateTimeToExcel($flight->eta) : null,
             $flight->route,
