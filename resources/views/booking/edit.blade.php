@@ -68,7 +68,7 @@
 
                         @if ($flight->url)
                             <x-form-group label="Link">
-                                <strong><a href="{{ $flight->url }}">{{ $flight->url }}</a></strong>
+                                <strong><a href="{{ str_contains($flight->url, "http") ? $flight->url : "https://" . $flight->url }}">{{ $flight->url }}</a></strong>
                             </x-form-group>
                         @endif
 
@@ -152,10 +152,9 @@
 
                         @endbind
                         @endbind
-                        </x-form-group>
 
-
-                        <x-form :action="route('bookings.cancel', $booking)" id="cancel-form" method="PATCH"
+                    </x-form>
+                    <x-form :action="route('bookings.cancel', $booking)" id="cancel-form" method="PATCH"
                                 style="display: none;"></x-form>
                 </div>
             </div>
