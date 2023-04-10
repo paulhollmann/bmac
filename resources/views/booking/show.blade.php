@@ -82,7 +82,7 @@
 
                     @if ($flight->url)
                         <x-form-group label="Link">
-                            <strong><a href="{{ str_contains($flight->url, "http") ? $flight->url : "https://" . $flight->url }}">{{ $flight->url }}</a></strong>
+                            <strong><a href="{{ str_contains($flight->url, "http") ? $flight->url : "https://" . $flight->url }}" target="_blank">{{ $flight->url }}</a></strong>
                         </x-form-group>
                     @endif
 
