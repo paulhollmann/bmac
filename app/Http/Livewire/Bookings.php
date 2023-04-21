@@ -28,7 +28,7 @@ class Bookings extends Component
     {
         // Only enable polling if event is 'active'
         if (now()->between($this->event->startBooking, $this->event->endEvent)) {
-            $this->refreshInSeconds = 15;
+            $this->refreshInSeconds = 60;
         }
     }
 
