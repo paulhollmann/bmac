@@ -15,7 +15,7 @@ class AddUrlToFlight extends Migration
     public function up()
     {
         Schema::table("flights", function (Blueprint $table){
-            $table->string("url")->after("notes");
+            $table->string("url")->after("notes")->nullable();
         });
     }
 
